@@ -45,13 +45,9 @@ print('Found %s texts. (samples)' % len(texts))
 
 EMBEDDING_DIM = int(sys.argv[1])
 np.random.seed(42)
-# Load the orginal glove file
-# SHASHANK files
-#GLOVE_MODEL_FILE="/home/shashank/DL_NLP/glove-twitter" + str(EMBEDDING_DIM) + "-w2v"
 
-
-# PINKESH files
-GLOVE_MODEL_FILE="glove.twitter.27B." + str(EMBEDDING_DIM) + "d.txt"
+# Vikram Rajan Glove file for Replication 
+GLOVE_MODEL_FILE="C:/My_Workspace/Git/ADS Project/glove.twitter.27B." + str(EMBEDDING_DIM) + "d.txt"
 NO_OF_CLASSES=3
 
 MAX_NB_WORDS = None
@@ -277,8 +273,8 @@ if __name__ == "__main__":
     pdb.set_trace()
     # Changes for new data prediction by Vikram Rrjan
     # Writing weights/embeddings learned to a file
-    np.save("fast_text.npy",t1)
-    f= open("vocab_fast_text","w")
+    np.save("LearnedEmbeddings\fast_text.npy",t1)
+    f= open("VocabOfTweets\vocab_fast_text","w")
     f.write(json.dumps(vocab))
     f.close()
     

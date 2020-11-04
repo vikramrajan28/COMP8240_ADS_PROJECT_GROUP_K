@@ -48,10 +48,10 @@ print('Embedding Dimension: %d' %(EMBEDDING_DIM))
 print('GloVe Embedding: %s' %(GLOVE_MODEL_FILE))
 print('MODEL_TYPE: %s' %(MODEL_TYPE))
 
-word2vec_model1 = np.load('fast_text.npy')
-print(word2vec_model1.shape)
+word2vec_model1 = np.load('LearnedEmbeddings/fast_text.npy')
+print("Shape of Learned embeddings:",word2vec_model1.shape)
 #word2vec_model1 = word2vec_model1.reshape((word2vec_model1.shape[1], word2vec_model1.shape[2]))
-f_vocab = open('vocab_fast_text', 'r')
+f_vocab = open('VocabOfTweets/vocab_fast_text', 'r')
 vocab = json.load(f_vocab)
 word2vec_model = {}
 for k,v in vocab.items():

@@ -10,16 +10,16 @@ import codecs
 words = ['islam', 'murderer', 'pedophile', 'religion', 'terrorism', 'islamic', 'muslim']
 
 def load_initial_emb():
-    initial_emb = gensim.models.KeyedVectors.load_word2vec_format("glove.twitter.27B.25d.txt")
+    initial_emb = gensim.models.KeyedVectors.load_word2vec_format("C:/My_Workspace/Git/ADS Project/glove.twitter.27B.25d.txt")
     return initial_emb
 
 def load_final_emb():
-    reverse_vocab = open("reverse_vocab.json", 'r')
+    reverse_vocab = open("VocabOfTweets/reverse_vocab.json", 'r')
     reverse_vocab = json.load(reverse_vocab)
     reverse_vocab['0'] = "<UNK>"
 
     final_emb = {}
-    for i, emb in enumerate(np.load("fast_text.npy")):
+    for i, emb in enumerate(np.load("LearnedEmbeddings/fast_text.npy")):
         final_emb[reverse_vocab[str(i)].encode("utf-8")] = emb
     return final_emb
 
@@ -70,5 +70,6 @@ def plot(out):
 if __name__=="__main__":
     ini = load_initial_emb()
     fin = load_final_emb()
+    pdb.set_trace()
     out = get_transform(ini, fin)
     plot(out)
