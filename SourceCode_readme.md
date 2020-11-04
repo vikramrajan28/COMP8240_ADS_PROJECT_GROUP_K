@@ -1,3 +1,6 @@
+Source code Github link: https://github.com/pinkeshbadjatiya/twitter-hatespeech
+
+
 # Hate Speech Detection on Twitter
 
 Implementation of our paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings). 
