@@ -182,4 +182,4 @@ Below are the instructions for the fast text model initialised with random embed
 python fast_text.py 25 random
 ```
 Above command internally calls new_data_predict.py with the embeddings learned from above model and predicts for new data.
-=======
+
