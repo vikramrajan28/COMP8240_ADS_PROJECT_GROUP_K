@@ -1,6 +1,6 @@
 ## COMP8240 Application of Data Science : Group K Project
 
-Reimplementation of the paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings).
+Reimplementation of the paper titled - "Deep Learning for Hate Speech Detection"
  
 By 
 * Bhushan Samarth (45818592)  
@@ -55,6 +55,7 @@ For example: gensim.models.Word2Vec.load_word2vec_format got deprecated and inst
 
 ### Reimplementing experiments of original work:
 
+Source Code of the paper titled - "Deep Learning for Hate Speech Detection" can be accessed from https://github.com/pinkeshbadjatiya/twitter-hatespeech.  
 Experiments are divided into three parts and instructions to run the code is attached below:  
 **Note**: For further details of the parameters of different model(CNN,BoW,lstm,etc) python files please refer to SourceCode_readme.md.  
 **Note**: The source code uses pretrained Glove embeddings :Genism.glove.twitter.27B.25d.txt. Therefore, need to download "glove.twitter.27B.25d.txt" and update the paths in following places:  
