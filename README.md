@@ -56,7 +56,10 @@ For example: gensim.models.Word2Vec.load_word2vec_format got deprecated and inst
 ### Reimplementing experiments of original work:
 
 Experiments are divided into three parts and instructions to run the code is attached below:
-Note: For further details of the parameters of different model(CNN,BoW,lstm,etc) python files please refer to SourceCode_readme.md.
+**Note**: For further details of the parameters of different model(CNN,BoW,lstm,etc) python files please refer to SourceCode_readme.md.
+**Note**: The source code uses pretrained Glove embeddings :Genism.glove.twitter.27B.25d.txt. Therefore, need to download "glove.twitter.27B.25d.txt" and update the paths in following places:
+* fast_text.py
+* Scripts shown in below experiments.
 
 #### PART A: Baseline Approach
 
