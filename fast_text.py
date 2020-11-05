@@ -282,7 +282,7 @@ if __name__ == "__main__":
     f.write(json.dumps(vocab))
     f.close()
     
-    #newTweetsPred(t1,model,MAX_SEQUENCE_LENGTH,word2vec_model)
+    newTweetsPred(t1,model,MAX_SEQUENCE_LENGTH,word2vec_model)
     #check_semantic_sim(table)
     #tryWord(table)
     pdb.set_trace()

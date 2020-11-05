@@ -15,7 +15,7 @@ nvocab, reverse_nvocab = {}, {}
 nfreq = defaultdict(int)
 twts = {}
 def newTweetsPred(weight, model,MAX_SEQUENCE_LENGTH,word2vec_model):
-    print("\n\n#### Predicting for New Data #####",len(X_n))
+    print("\n\n#### Predicting for New Data #####")
 
     twts = select_new_tweets(word2vec_model)
     #pdb.set_trace()
@@ -34,18 +34,18 @@ def newTweetsPred(weight, model,MAX_SEQUENCE_LENGTH,word2vec_model):
     print("Micro recall Score",recall_score(y_n, y_npred, average='micro'))
     print("Weighted F1 Score",f1_score(y_n, y_npred, average='weighted'))
     print("Micro F1 Score", f1_score(y_n, y_npred, average='micro'))
-    print("\n#### End of Prediction #####",len(X_n))
+    print("\n#### End of Prediction #####")
     #pdb.set_trace()
 
 def get_ndata():
     ts = []
-    file_name = 'C:/Users/Owner/Downloads/FINAL_ASs_DF.xlsx'
-    df = pd.read_excel(file_name, sheet_name = "Sheet2")
+    file_name = './tweet_data/NewData/tweets.xlsx'
+    df = pd.read_excel(file_name, sheet_name = "Sheet1")
     for i,v in df.iterrows():
         ts.append({
                 'id': v['id'],
                 'text': str(v['text']).lower(),
-                'label': v['Column2']
+                'label': v['labels']
                 })
     #pdb.set_trace()
     print("Total new tweets: ",len(ts))
