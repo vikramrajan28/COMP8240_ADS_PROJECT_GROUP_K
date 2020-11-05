@@ -3,10 +3,10 @@
 Reimplementation of our paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings).
 
 By 
--Bhushan Samarth (45818592)  
--Aakash Sadaphule (45817901)
--Vikram Rajan (45763054)
--Vikram Mhaskey (45714819)
+* Bhushan Samarth (45818592)  
+* Aakash Sadaphule (45817901)
+* Vikram Rajan (45763054)
+* Vikram Mhaskey (45714819)
 
 ### Requirements
 * Pandas
