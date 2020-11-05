@@ -22,6 +22,7 @@ from batch_gen import batch_gen
 from string import punctuation
 from get_similar_words import get_similar_words
 import sys
+import os
 import json
 from new_data_predict import newTweetsPred
 
@@ -44,7 +45,7 @@ for tweet in tweet_data:
 print('Found %s texts. (samples)' % len(texts))
 
 EMBEDDING_DIM = int(sys.argv[1])
-EMBEDDING = int(sys.argv[2])
+EMBEDDING = sys.argv[2] #Change for reciving embedding type while execution by Vikram
 np.random.seed(42)
 
 # Vikram Rajan Glove file for Replication 
@@ -272,15 +273,16 @@ if __name__ == "__main__":
     model = fast_text_model(data.shape[1])
     t1 = train_fasttext(data, y, model, EMBEDDING_DIM, W, EMBEDDING)
     table = model.layers[0].get_weights()[0]
-    pdb.set_trace()
+    #pdb.set_trace()
     # Changes for new data prediction by Vikram Rrjan
     # Writing weights/embeddings learned to a file
-    np.save("LearnedEmbeddings\fast_text.npy",t1)
-    f= open("VocabOfTweets\vocab_fast_text","w")
+    np.save(os.path.join("LearnedEmbeddings","fast_text.npy"),t1)
+    #np.save(os.path.join("LearnedEmbeddings","fast_text_t.npy"),table)
+    f= open("VocabOfTweets/vocab_fast_text","w")
     f.write(json.dumps(vocab))
     f.close()
     
-    newTweetsPred(t1,model,MAX_SEQUENCE_LENGTH,word2vec_model)
+    #newTweetsPred(t1,model,MAX_SEQUENCE_LENGTH,word2vec_model)
     #check_semantic_sim(table)
     #tryWord(table)
     pdb.set_trace()

@@ -6,6 +6,8 @@ from keras.models import Sequential, Model
 from keras.layers import Activation, Dense, Dropout, Embedding, Flatten,Concatenate,  Input, Convolution1D, MaxPooling1D, GlobalMaxPooling1D
 import numpy as np
 import pdb
+import os
+import json
 from nltk import tokenize
 from sklearn.metrics import make_scorer, f1_score, accuracy_score, recall_score, precision_score, classification_report, precision_recall_fscore_support
 from sklearn.ensemble  import GradientBoostingClassifier, RandomForestClassifier
@@ -209,6 +211,7 @@ def train_CNN(X, y, inp_dim, model, weights, epochs=EPOCHS, batch_size=BATCH_SIZ
     p, r, f1 = 0., 0., 0.
     p1, r1, f11 = 0., 0., 0.
     sentence_len = X.shape[1]
+    lookup_table = np.zeros_like(model.layers[0].get_weights()[0])
     for train_index, test_index in cv_object.split(X):
         if INITIALIZE_WEIGHTS_WITH == "glove":
             model.layers[0].set_weights([weights])
@@ -242,6 +245,7 @@ def train_CNN(X, y, inp_dim, model, weights, epochs=EPOCHS, batch_size=BATCH_SIZ
                 #print(x.shape, y.shape)
                 loss, acc = model.train_on_batch(x, y_temp, class_weight=class_weights)
                 #print(loss, acc)
+        lookup_table += model.layers[0].get_weights()[0]
         y_pred = model.predict_on_batch(X_test)
         y_pred = np.argmax(y_pred, axis=1)
         #print(classification_report(y_test, y_pred))
@@ -263,6 +267,7 @@ def train_CNN(X, y, inp_dim, model, weights, epochs=EPOCHS, batch_size=BATCH_SIZ
     print( "average precision is %f" %(p1/NO_OF_FOLDS))
     print( "average recall is %f" %(r1/NO_OF_FOLDS))
     print( "average f1 is %f" %(f11/NO_OF_FOLDS))
+    return lookup_table/float(10)
 
 
 if __name__ == "__main__":
@@ -326,8 +331,16 @@ if __name__ == "__main__":
     data, y = sklearn.utils.shuffle(data, y)
     W = get_embedding_weights()
     model = cnn_model(data.shape[1], EMBEDDING_DIM)
-    train_CNN(data, y, EMBEDDING_DIM, model, W)
-
+    t1=train_CNN(data, y, EMBEDDING_DIM, model, W)
+    table = model.layers[0].get_weights()[0]
+    
+    # Changes for new data prediction by Vikram Rrjan
+    # Writing weights/embeddings learned to a file
+    np.save(os.path.join("LearnedEmbeddings","cnn.npy"),t1)
+    #np.save(os.path.join("LearnedEmbeddings","cnn_t.npy"),table)
+    f= open("VocabOfTweets/vocab_cnn","w")
+    f.write(json.dumps(vocab))
+    f.close()
     pdb.set_trace()
 
 

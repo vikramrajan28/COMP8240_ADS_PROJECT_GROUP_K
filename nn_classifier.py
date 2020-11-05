@@ -21,6 +21,7 @@ from collections import defaultdict
 from batch_gen import batch_gen
 from my_tokenizer import glove_tokenize
 import xgboost as xgb
+from preprocess_twitter import tokenize as tokenizer_g
 
 ### Preparing the text data
 texts = []  # list of text samples
@@ -44,14 +45,19 @@ word_embed_size = 200
 GLOVE_MODEL_FILE = str(sys.argv[1])
 EMBEDDING_DIM = int(sys.argv[2])
 MODEL_TYPE=sys.argv[3]
+# Changes for receiving filenames of npy and vocab
+npyfile=sys.argv[4]
+voc_file=sys.argv[5]
 print('Embedding Dimension: %d' %(EMBEDDING_DIM))
 print('GloVe Embedding: %s' %(GLOVE_MODEL_FILE))
 print('MODEL_TYPE: %s' %(MODEL_TYPE))
 
-word2vec_model1 = np.load('LearnedEmbeddings/fast_text.npy')
+word2vec_model1 = np.load('LearnedEmbeddings/'+npyfile)
+print("File name Learned embeddings:",npyfile)
+print("File name Vocabs:",voc_file)
 print("Shape of Learned embeddings:",word2vec_model1.shape)
 #word2vec_model1 = word2vec_model1.reshape((word2vec_model1.shape[1], word2vec_model1.shape[2]))
-f_vocab = open('VocabOfTweets/vocab_fast_text', 'r')
+f_vocab = open('VocabOfTweets/'+voc_file, 'r')
 vocab = json.load(f_vocab)
 word2vec_model = {}
 for k,v in vocab.items():
@@ -78,7 +84,7 @@ def select_tweets_whose_embedding_exists():
     tweet_return = []
     for tweet in tweets:
         _emb = 0
-        words = glove_tokenize(tweet['text'])
+        words = tokenizer_g(tweet['text'])
         for w in words:
             if w in word2vec_model:  # Check if embeeding there in GLove model
                 _emb+=1
@@ -98,7 +104,7 @@ def gen_data():
 
     X, y = [], []
     for tweet in tweets:
-        words = glove_tokenize(tweet['text'])
+        words = tokenizer_g(tweet['text'])
         emb = np.zeros(word_embed_size)
         for word in words:
             try:
@@ -121,8 +127,8 @@ def get_model(m_type=None):
     if m_type == 'logistic':
         logreg = LogisticRegression()
     elif m_type == "gradient_boosting":
-        #logreg = GradientBoostingClassifier(n_estimators=10)
-        logreg = xgb.XGBClassifier(nthread=-1)
+        logreg = GradientBoostingClassifier(n_estimators=10)
+        #logreg = xgb.XGBClassifier(nthread=-1)
     elif m_type == "random_forest":
         logreg = RandomForestClassifier(n_estimators=100, n_jobs=-1)
     elif m_type == "svm_rbf":

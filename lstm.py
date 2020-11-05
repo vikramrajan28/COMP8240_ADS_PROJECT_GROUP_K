@@ -19,7 +19,8 @@ from collections import defaultdict
 from batch_gen import batch_gen
 import sys
 from preprocess_twitter import tokenize as tokenizer_g
-
+import os
+import json
 from nltk import tokenize as tokenize_nltk
 from my_tokenizer import glove_tokenize
 
@@ -174,6 +175,7 @@ def train_LSTM(X, y, model, inp_dim, weights, epochs=EPOCHS, batch_size=BATCH_SI
     p, r, f1 = 0., 0., 0.
     p1, r1, f11 = 0., 0., 0.
     sentence_len = X.shape[1]
+    lookup_table = np.zeros_like(model.layers[0].get_weights()[0])
     #print("sen len ",sentence_len)
     for train_index, test_index in cv_object.split(X):
         if INITIALIZE_WEIGHTS_WITH == "glove":
@@ -210,7 +212,7 @@ def train_LSTM(X, y, model, inp_dim, weights, epochs=EPOCHS, batch_size=BATCH_SI
                 #print(x.shape, y.shape)
                 loss, acc = model.train_on_batch(x, y_temp, class_weight=class_weights)
                 #print(loss, acc)
-
+        lookup_table += model.layers[0].get_weights()[0]
         y_pred = model.predict_on_batch(X_test)
         y_pred = np.argmax(y_pred, axis=1)
         #print(classification_report(y_test, y_pred))
@@ -233,6 +235,7 @@ def train_LSTM(X, y, model, inp_dim, weights, epochs=EPOCHS, batch_size=BATCH_SI
     print ("average precision is %f" %(p1/NO_OF_FOLDS))
     print ("average recall is %f" %(r1/NO_OF_FOLDS))
     print ("average f1 is %f" %(f11/NO_OF_FOLDS))
+    return lookup_table/float(10)
 
 
 if __name__ == "__main__":
@@ -298,6 +301,15 @@ if __name__ == "__main__":
 
     model = lstm_model(data.shape[1], EMBEDDING_DIM)
     #model = lstm_model(data.shape[1], 25, get_embedding_weights())
-    train_LSTM(data, y, model, EMBEDDING_DIM, W)
+    t1 = train_LSTM(data, y, model, EMBEDDING_DIM, W)
+    table = model.layers[0].get_weights()[0]
+    
+    # Changes for new data prediction by Vikram Rajan
+    # Writing weights/embeddings learned to a file
+    np.save(os.path.join("LearnedEmbeddings","lstm.npy"),t1)
+    #np.save(os.path.join("LearnedEmbeddings","lstm.npy"),table)
+    f= open("VocabOfTweets/vocab_lstm","w")
+    f.write(json.dumps(vocab))
+    f.close()
 
     pdb.set_trace()

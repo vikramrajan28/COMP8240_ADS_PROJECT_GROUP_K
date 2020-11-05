@@ -49,7 +49,8 @@ For example: gensim.models.Word2Vec.load_word2vec_format got deprecated and inst
 
 ### Reimplementing experiments of original work:
 
-Experiments are divided into three parts:
+Experiments are divided into three parts and instructions to run the code is attached below:
+Note: For further details of the parameters of different model(CNN,BoW,lstm,etc) python files please refer to SourceCode_readme.md.
 
 #### PART A: Baseline Approach
 
@@ -89,8 +90,78 @@ python fast_text.py 25 random
 ```
 5. LSTM + random embeddings 
 ```
-python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights random --learn-embeddings --epochs 10 --batch-size 512```
+python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights random --learn-embeddings --epochs 10 --batch-size 512
+```
 6. LSTM + GloVe embeddings 
 ```
 python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights glove --learn-embeddings --epochs 10 --batch-size 512
 ```
+
+#### PART C:  Embeddings learned from NN to classifiers
+1.	Fasttext + random + GDBT
+
+Step 1: creating/saving model and vocabulary files
+```
+python fast_text.py 25 random
+```
+Step 2: Training the above saved model files on NN classifier
+```
+python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt 25 gradient_boosting fast_text.npy vocab_fast_text
+```
+
+2. 	FastText + Glove + GDBT
+
+Step 1: creating/saving model and vocabulary files
+```
+python fast_text.py 25 glove
+```
+Step 2: Training the above saved model files on NN classifier
+```
+python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt 25 gradient_boosting fast_text.npy vocab_fast_text
+```
+
+3.	CNN + glove + GBDT:
+
+Step 1: creating/saving model and vocabulary files
+```
+python cnn.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --epochs 10 --batch-size 128 --initialize-weights glove --scale-loss-function
+```
+Step 2: Training the  above saved model files on NN classifier
+```
+python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt 25 gradient_boosting cnn.npy vocab_cnn
+```
+
+4.	CNN + random + GBDT:
+
+Step 1: creating/saving model and vocabulary files
+```
+python cnn.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --epochs 10 --batch-size 128 --initialize-weights random --scale-loss-function
+```
+Step 2: Training the above saved model files on NN classifier
+```
+python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt 25 gradient_boosting cnn.npy vocab_cnn
+```
+
+5.	LSTM + random + GBDT:
+
+Step 1: creating/saving model and vocabulary files
+```
+python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights random --learn-embeddings --epochs 10 --batch-size 512
+```
+Step 2: Training the above saved model files on NN classifier
+```
+python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt 25 gradient_boosting lstm.npy vocab_lstm
+```
+
+6.	LSTM + GloVe + GBDT:
+
+Step 1: creating/saving model and vocabulary files
+```
+python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights glove --learn-embeddings --epochs 10 --batch-size 512
+```
+Step 2: Training the above saved model files on NN classifier
+```
+python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt 25 gradient_boosting lstm.npy vocab_lstm
+```
+
+** Note: Repeat same instructions above for new data.

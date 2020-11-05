@@ -5,19 +5,19 @@ import pdb
 import pandas as pd
 
 # Changes for new data prediction by Vikram Rrjan
-flg="" # Set Flag = new, if using new data instead of orginal data
+flg="new" # Set Flag = new, if using new data instead of orginal data
 
 def get_data():
     tweets = []
     # Changes for new data prediction by Vikram Rrjan
     if(flg=="new"):
         file_name = './tweet_data/NewData/tweets.xlsx'
-        df = pd.read_excel(file_name, sheet_name = "Sheet2")
+        df = pd.read_excel(file_name, sheet_name = "Sheet1")
         for i,v in df.iterrows():
             tweets.append({
                     'id': v['id'],
                     'text': str(v['text']).lower(),
-                    'label': v['Column2']
+                    'label': v['labels']
                     })
     else:    
         files = ['racism.json', 'neither.json', 'sexism.json']
