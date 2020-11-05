@@ -1,6 +1,6 @@
 ## COMP8240 Application of Data Science : Group K Project
 
-Reimplementation of our paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings).
+Reimplementation of the paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings).
 
 By 
 * Bhushan Samarth (45818592)  
