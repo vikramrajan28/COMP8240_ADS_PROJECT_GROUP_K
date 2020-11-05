@@ -53,6 +53,44 @@ Experiments are divided into three parts:
 
 #### PART A: Baseline Approach
 
+1. Bag of Words Vector + Gradient boosting classifier
 ```
 python BoWV.py --model gradient_boosting --seed 42 -f glove.twitter.27b.25d.txt -d 25 --seed 42 --folds 10 --tokenizer glove --estimators 10 --loss deviance
+```
+2. Bag of Words Vector + Balanced SVM
+```
+python BoWV.py --model svm --seed 42 -f glove.twitter.27b.25d.txt -d 25 --seed 42 --folds 10 --tokenizer glove --kernel rbf -- class_weight balanced
+```
+3. TFIDF + Gradient boosting classifier:
+```
+python tfidf.py -m tfidf_gradient_boosting --max_ngram 3 --tokenizer glove --loss deviance --estimators 10
+``` 
+4. TFIDF + Balanced SVM:
+```
+python tfidf.py -m tfidf_svm --max_ngram 3 --tokenizer glove --loss deviance  --class_weight balanced --kernel rbf
+```
+
+#### PART B: Proposed Approach
+1. CNN + Random embeddings
+```
+python cnn.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --epochs 10 --batch-size 128 --initialize-weights random --scale-loss-function
+```
+2. CNN + GloVe embeddings
+```
+python cnn.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --epochs 10 --batch-size 128 --initialize-weights glove --scale-loss-function
+```
+3. FastText + GloVe embeddings 
+```
+python fast_text.py 25 glove
+```
+4. FastText + random embeddings 
+```
+python fast_text.py 25 random
+```
+5. LSTM + random embeddings 
+```
+python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights random --learn-embeddings --epochs 10 --batch-size 512```
+6. LSTM + GloVe embeddings 
+```
+python lstm.py -f C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.txt -d 25 --tokenizer nm --loss categorical_crossentropy --optimizer adam --initialize-weights glove --learn-embeddings --epochs 10 --batch-size 512
 ```

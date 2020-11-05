@@ -5,7 +5,7 @@ import pdb
 import pandas as pd
 
 # Changes for new data prediction by Vikram Rrjan
-flg="new" # Set Flag = new, if using new data instead of orginal data
+flg="" # Set Flag = new, if using new data instead of orginal data
 
 def get_data():
     tweets = []

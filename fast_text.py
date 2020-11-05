@@ -44,10 +44,11 @@ for tweet in tweet_data:
 print('Found %s texts. (samples)' % len(texts))
 
 EMBEDDING_DIM = int(sys.argv[1])
+EMBEDDING = int(sys.argv[2])
 np.random.seed(42)
 
 # Vikram Rajan Glove file for Replication 
-GLOVE_MODEL_FILE="C:/My_Workspace/Git/ADS Project/glove.twitter.27B." + str(EMBEDDING_DIM) + "d.txt"
+GLOVE_MODEL_FILE="C:/My_Workspace/Git/ADS_Project/glove.twitter.27B." + str(EMBEDDING_DIM) + "d.txt"
 NO_OF_CLASSES=3
 
 MAX_NB_WORDS = None
@@ -176,7 +177,7 @@ def fast_text_model(sequence_length):
     print(model.summary())
     return model
 
-def train_fasttext(X, y, model, inp_dim,embedding_weights, epochs=10, batch_size=128):
+def train_fasttext(X, y, model, inp_dim,embedding_weights, embed, epochs=10, batch_size=128):
     cv_object = KFold(n_splits=10, shuffle=True, random_state=42)
     print (cv_object)
     p, r, f1 = 0., 0., 0.
@@ -186,7 +187,8 @@ def train_fasttext(X, y, model, inp_dim,embedding_weights, epochs=10, batch_size
     for train_index, test_index in cv_object.split(X):
         shuffle_weights(model)
         #pdb.set_trace()
-        model.layers[0].set_weights([embedding_weights])
+        if(embed=="glove"):
+            model.layers[0].set_weights([embedding_weights])
         X_train, y_train = X[train_index], y[train_index]
         X_test, y_test = X[test_index], y[test_index]
         y_train = y_train.reshape((len(y_train), 1))
@@ -268,7 +270,7 @@ if __name__ == "__main__":
     W = get_embedding_weights()
     data, y = sklearn.utils.shuffle(data, y)
     model = fast_text_model(data.shape[1])
-    t1 = train_fasttext(data, y, model, EMBEDDING_DIM, W)
+    t1 = train_fasttext(data, y, model, EMBEDDING_DIM, W, EMBEDDING)
     table = model.layers[0].get_weights()[0]
     pdb.set_trace()
     # Changes for new data prediction by Vikram Rrjan
