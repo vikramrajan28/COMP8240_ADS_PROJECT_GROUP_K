@@ -1,7 +1,7 @@
 ## COMP8240 Application of Data Science : Group K Project
 
-Reimplementation of our paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings).
-
+Reimplementation of the paper titled - "Deep Learning for Hate Speech Detection" (to appear in WWW'17 proceedings).
+ 
 By 
 * Bhushan Samarth (45818592)  
 * Aakash Sadaphule (45817901)
@@ -172,6 +172,7 @@ python nn_classifier.py C:/My_Workspace/Git/ADS_Project/glove.twitter.27B.25d.tx
 
 ** Note: Repeat same instructions above for new data.
 
+
 ### Additional tasks: Prediction on new data with model trained on original data.
 
 New file created : new_data_predict.py
@@ -181,3 +182,4 @@ Below are the instructions for the fast text model initialised with random embed
 python fast_text.py 25 random
 ```
 Above command internally calls new_data_predict.py with the embeddings learned from above model and predicts for new data.
+=======
